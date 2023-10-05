@@ -27,7 +27,17 @@ function test2 {
 }
 
 function test3 {
-    output=$(ldd $1 | grep "not a dynamic executable")
+    filename=$(basename -- "$1")
+    extension="${filename##*.}"
+    if [[ $filename == *.exe ]]
+    then
+        output=$(ldd $1 | grep WINDOWS)
+        if [[ -z "$output" ]]; then
+            output="not a dynamic executable"
+        fi		
+    else
+    	output=$(ldd $1 | grep "not a dynamic executable")
+    fi 
     test0 "- 3. File is static" test -n "$output"
 }
 
