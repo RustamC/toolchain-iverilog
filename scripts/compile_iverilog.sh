@@ -1,9 +1,8 @@
 # -- Compile Iverilog script
 
-VER=10_2
+VER=12_0_git
 IVERILOG=iverilog-$VER
-TAR_IVERILOG=v$VER.tar.gz
-REL_IVERILOG=https://github.com/steveicarus/iverilog/archive/$TAR_IVERILOG
+REL_IVERILOG=https://github.com/steveicarus/iverilog
 
 # -- Setup
 . $WORK_DIR/scripts/build_setup.sh
@@ -11,10 +10,7 @@ REL_IVERILOG=https://github.com/steveicarus/iverilog/archive/$TAR_IVERILOG
 cd $UPSTREAM_DIR
 
 # -- Check and download the release
-test -e $TAR_IVERILOG || wget $REL_IVERILOG
-
-# -- Unpack the release
-tar zxf $TAR_IVERILOG
+test -e $IVERILOG || git clone $REL_IVERILOG $IVERILOG
 
 # -- Copy the upstream sources into the build directory
 rsync -a $IVERILOG $BUILD_DIR --exclude .git
@@ -42,7 +38,9 @@ sh autoconf.sh
 # -- Force not to use libreadline and libhistory
 if [ ${ARCH:0:5} == "linux" ]; then
   sed -i "s/ac_cv_lib_readline_readline=yes/ac_cv_lib_readline_readline=no/g" configure
+  sed -i "s/ac_cv_lib_readline_add_history=yes/ac_cv_lib_readline_add_history=no/g" configure
   sed -i "s/ac_cv_lib_history_add_history=yes/ac_cv_lib_history_add_history=no/g" configure
+  sed -i "s/ac_cv_lib_termcap_tputs=yes/ac_cv_lib_termcap_tputs=no/g" configure
   sed -i "s/ac_cv_lib_pthread_pthread_create=yes/ac_cv_lib_pthread_pthread_create=no/g" configure
 fi
 

@@ -1,7 +1,7 @@
 # Build setup script
 
 if [ $ARCH == "linux_x86_64" ]; then
-  HOST="x86_64-linux-gnu"
+  HOST="x86_64-pc-linux-gnu"
   CONFIG_CFLAGS="-O2"
   CONFIG_CXXFLAGS="-O2"
   CONFIG_LDFLAGS="-static-libgcc -static-libstdc++"
@@ -9,7 +9,7 @@ if [ $ARCH == "linux_x86_64" ]; then
 fi
 
 if [ $ARCH == "linux_i686" ]; then
-  HOST="x86_64-linux-gnu"
+  HOST="x86_64-pc-linux-gnu"
   CONFIG_CFLAGS="-O2"
   CONFIG_CXXFLAGS="-O2"
   CONFIG_LDFLAGS="-static-libgcc -static-libstdc++"
